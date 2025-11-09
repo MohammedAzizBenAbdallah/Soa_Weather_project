@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #41ab92, #15423d);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 40px;
+  color: white;
+  overflow: hidden;
+}
+
+/* Input section */
+.meteo_choice {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 20px 40px;
+  width: 60%;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.meteo_choice h1 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.meteo_choice input {
+  width: 70%;
+  padding: 15px;
+  border-radius: 50px;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  outline: none;
+  color: #15423d;
+}
+
+.meteo_choice input::placeholder {
+  color: #7ba49d;
+}
+
+.meteo_choice button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 50px;
+  background-color: #19523a;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.meteo_choice button:hover {
+  background-color: #41ab92;
+  transform: scale(1.05);
+}
+
+/* Weather Cards Section */
+.weather {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 20px;
+  width: 90%;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.weather::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each card */
+.weather-card {
+  flex: 1 0 250px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.weather-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.weather-card h1,
+.weather-card h2 {
+  text-align: center;
+  margin: 8px 0;
+}
+.weather-card h1{
+    color:aqua
+}
+.weather-card img {
+  width: 80px;
+  margin-top: 10px;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}

@@ -19,7 +19,7 @@ public class WeatherEndPoint {
         String clientId = UUID.randomUUID().toString();
         clients.put(session, clientId);
         System.out.println("Connected to client: "+ clientId);
-
+        broadcastClientCount();
     }
     @OnClose
     public void onClose(Session session){
@@ -27,6 +27,8 @@ public class WeatherEndPoint {
         clientCities.remove(session);
         System.out.println("Disconnected from client: "+ ClientId);
         broadcast("Disconnected from client: "+ ClientId);
+        broadcastClientCount();
+
     }
     @OnMessage
     public static void onMessage(String city, Session session){
@@ -60,5 +62,11 @@ public class WeatherEndPoint {
                 e.printStackTrace();
             }
         }
+    }
+    public static void broadcastClientCount(){
+        int count = clients.size();
+        String message = "{\"type\": \"clientCount\", \"count\": " + count + "}";
+        System.out.println("broadcastClientCount: " + message);
+        broadcast(message);
     }
 }

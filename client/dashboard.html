@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html >
+<html >
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,11 +9,18 @@
   </head>
   <body>
     <div class="meteo_choice">
-      <h1>Real Time Meteo Update</h1>
-      <input type="text" placeholder="choose a country" name="" id="" />
-      <button onclick="return main()">Get Updates</button>
+    <h1>Real Time Meteo Update</h1>
+    
+    <input type="text" placeholder="choose a country" name="" id="city-input" />
+    
+    <div class="connectedClients">
+      <h4 id="connected_clients">Connected Clients: 0</h4>
     </div>
-    <div class="loading" style="display: none">Loading...</div>
+    
+    <button onclick="sendNewCity()">Get Updates</button>
+  
+  </div>
+  <div class="loading" style="display: none">Loading...</div>
 
     <div class="weather"></div>
     <script src="main.js"></script>

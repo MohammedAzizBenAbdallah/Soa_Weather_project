@@ -1,48 +1,76 @@
-function main() {
-  document.querySelector(".weather").innerHTML = "";
+// 1. Create the socket connection ONCE at the global level.
+const socket = new WebSocket("ws://localhost:8080/ws/weather");
 
-  const loading = document.querySelector(".loading");
-  loading.style.display = "block"; // show spinner immediately
+// --- WebSocket Event Listeners ---
 
-  const socket = new WebSocket("ws://localhost:8080/ws/weather");
+socket.onopen = () => {
+    console.log("Connection established");
+    
+    // Use the new ID to find the input
+    const input = document.querySelector("#city-input").value;
+    if (input) {
+        socket.send(input);
+    }
+};
 
-  function displayData(msg) {
+socket.onmessage = (msg) => {
+    console.log("Raw data received:", msg.data);
+    const data = JSON.parse(msg.data);
+
+    if (data.type === "clientCount") {
+        var msgText = "Connected Clients: " + data.count;
+        document.getElementById("connected_clients").innerText = msgText;
+    } 
+    else if (data.location) {
+        const loading = document.querySelector(".loading");
+        loading.style.display = "none";
+        displayData(data);
+    } 
+    else {
+        console.warn("Received unknown message format:", data);
+    }
+};
+
+socket.onclose = () => {
+    console.log("Connection destroyed");
+};
+
+// --- Helper Functions ---
+
+function displayData(msg) {
     const div = document.querySelector(".weather");
-    div.innerHTML = "";
+    div.innerHTML = ""; 
 
     const items = [
-      { title: "Location", value: msg.location.name },
-      { title: "Region", value: msg.location.region },
-      { title: "Country", value: msg.location.country },
-      { title: "Local Time", value: msg.location.localtime },
-      { title: "Condition", value: msg.current.condition.text },
+        { title: "Location", value: msg.location.name },
+        { title: "Region", value: msg.location.region },
+        { title: "Country", value: msg.location.country },
+        { title: "Local Time", value: msg.location.localtime },
+        { title: "Condition", value: msg.current.condition.text },
     ];
 
     items.forEach((item) => {
-      const card = document.createElement("div");
-      card.className = "weather-card";
-      card.innerHTML = `<h1>${item.title}</h1><h2>${item.value}</h2>`;
-      div.append(card);
+        const card = document.createElement("div");
+        card.className = "weather-card";
+        card.innerHTML = `<h1>${item.title}</h1><h2>${item.value}</h2>`;
+        div.append(card);
     });
 
     const img = document.createElement("img");
     img.src = msg.current.condition.icon;
     div.lastChild.append(img);
-  }
+}
 
-  socket.onopen = () => {
-    console.log("connection established");
-    const input = document.querySelector("input").value;
+/**
+ * This function is now correctly called by your button's onclick.
+ */
+function sendNewCity() {
+    document.querySelector(".weather").innerHTML = "";
+    const loading = document.querySelector(".loading");
+    loading.style.display = "block";
+
+    // Use the new ID to find the input
+    const input = document.querySelector("#city-input").value;
+
     socket.send(input);
-  };
-
-  socket.onmessage = (msg) => {
-    loading.style.display = "none"; // hide spinner once data arrives
-    const data = JSON.parse(msg.data);
-    displayData(data);
-  };
-
-  socket.onclose = () => {
-    console.log("connection destroyed");
-  };
 }
